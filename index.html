@@ -211,35 +211,29 @@ function searchWeb(type) {
 
   if (!query) {
     input.focus();
-    message.textContent = "Enter something to search for first.";
+    message.textContent = "Enter something to search first.";
     return;
   }
 
-  let url = "https://www.google.com/search?q=" +
-    encodeURIComponent(query);
+  const encodedQuery = encodeURIComponent(query);
 
-  if (type === "Images") {
-    url += "&tbm=isch";
-  } else if (type === "Videos") {
-    url += "&tbm=vid";
-  } else if (type === "News") {
-    url += "&tbm=nws";
-  } else if (type === "Books") {
-    url = "https://books.google.com/books?q=" +
-      encodeURIComponent(query);
-  } else if (type === "Maps") {
-    url = "https://www.google.com/maps/search/" +
-      encodeURIComponent(query);
-  } else if (type === "Finance") {
-    url = "https://www.google.com/search?q=" +
-      encodeURIComponent(query + " finance stocks");
-  } else if (type === "Forums") {
-    url += "+forum";
-  } else if (type === "Short videos") {
-    url += "+short+videos";
-  }
+  let provider = "web";
 
-  window.open(url, "_blank", "noopener");
+  if (type === "Images") provider = "images";
+  else if (type === "Videos") provider = "videos";
+  else if (type === "News") provider = "news";
+  else if (type === "Books") provider = "books";
+  else if (type === "Maps") provider = "maps";
+  else if (type === "Finance") provider = "finance";
+  else if (type === "Forums") provider = "forums";
+  else if (type === "Short videos") provider = "shortvideos";
+
+  const resultsUrl =
+    window.location.pathname +
+    "?q=" + encodedQuery +
+    "&type=" + encodeURIComponent(provider);
+
+  window.location.href = resultsUrl;
 }
 
 document.getElementById("searchForm").addEventListener(
